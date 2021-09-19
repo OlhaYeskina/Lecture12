@@ -5,61 +5,68 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TextAnalyzer {
+public class TextAnalyzer{
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("C:\\Users\\Dreyk\\Desktop\\example.txt")); //create a scanner
+//        Scanner scanner = new Scanner(new File("C:\\Users\\Dreyk\\Desktop\\example.txt")); //create a scanner
+//
+//
+//        Map<String, Integer> statistics = new HashMap<>();
+//        while (scanner.hasNext()) {
+//            String word = scanner.useDelimiter("\\s+").next();
+//            Integer count = statistics.get(word);
+//            if (count == null) {
+//                count = 0;
+//            }
+//            statistics.put(word, ++count);
+//        }
+//        System.out.println("Words in the file and their number:\n" + statistics);
+        //System.out.println(operation1(scanner, (HashMap<String, Integer>) statistics));
 
+        //System.out.println(operation2(scanner, (HashMap<String, Integer>) statistics));
 
+        List<String> list = new LinkedList<>();
+
+        Scanner scan = new Scanner(new File("C:\\Users\\Dreyk\\Desktop\\example.txt"));
+        String word = "";
+        while (scan.hasNext()) {
+            word = scan.useDelimiter("\\s+").next();
+            list.add(word);
+        }
+//        System.out.println(list);
+
+ //       operation2(list);
+
+        Scanner scanner = new Scanner(new File("C:\\Users\\Dreyk\\Desktop\\example.txt"));
         Map<String, Integer> statistics = new HashMap<>();
         while (scanner.hasNext()) {
-            String word = scanner.useDelimiter("\\s+").next();
-            Integer count = statistics.get(word);
+            String word3 = scanner.useDelimiter("\\s+").next();
+            Integer count = statistics.get(word3);
             if (count == null) {
                 count = 0;
             }
-            statistics.put(word, ++count);
+            statistics.put(word3, ++count);
         }
-        System.out.println("Words in the file and their number:\n" + statistics);
-        System.out.println(operation1(scanner, (HashMap<String, Integer>) statistics));
+
+//        operation1(statistics);
+        operation3(statistics);
     }
 
     //Вывести два наиболее встречаемых слова, слова отсортировать их в алфавитном порядку по убыванию, и вывести сколько раз слово встречается в тексте.
-//
-//good -> 23
-//allow -> 2
-    public static Map<String, Integer> operation1(Scanner scanner, HashMap<String, Integer> statistics) {
-        Map<String, Integer> map = new HashMap<>();
-        Map.Entry<String, Integer> maxEntry1 = null;
-        Map.Entry<String, Integer> maxEntry2 = null;
-        for (Map.Entry<String, Integer> entry : statistics.entrySet()) {
-            if (maxEntry1 == null || entry.getValue().compareTo(maxEntry1.getValue()) > 0) {
-                maxEntry1 = entry;
+    public static void operation1(Map<String, Integer> items) {
+
+        Map<String, Integer> sortedMap = items.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+       // System.out.println(sortedMap);
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : sortedMap.entrySet()){
+        if (count < 2) {
+                System.out.println(entry.getKey() + "->" + entry.getValue());
+                count++;
             }
         }
-        // System.out.println(maxEntry1);
-        statistics.remove(maxEntry1.getKey());
-        map.put(maxEntry1.getKey(), maxEntry1.getValue());
-        for (Map.Entry<String, Integer> entry : statistics.entrySet()) {
-            if (maxEntry2 == null || entry.getValue().compareTo(maxEntry2.getValue()) > 0) {
-                maxEntry2 = entry;
-            }
-        }
-        //  System.out.println(maxEntry2);
-        statistics.remove(maxEntry2.getKey());
-        map.put(maxEntry2.getKey(), maxEntry2.getValue());
-        System.out.println("After sorting descending order the two most common words in file: ");
-        Map<String, Integer> sortedMapDesc = sortByValue(map, true);
-        // System.out.println(sortedMapDesc);
-
-
-
-
-        return sortedMapDesc;
     }
-
-
-
-
 
 
     private static Map<String, Integer> sortByValue(Map<String, Integer> unsortMap, final boolean order) {
@@ -74,5 +81,40 @@ public class TextAnalyzer {
         return list.stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new));
 
     }
+
+
+    public static void operation2(List<String> list) {
+
+        String[] longestWord = {"", "", ""};
+        for (int i = 0; i < 3; i++) {
+            for (String l : list
+            ) {
+                if (l.length() > longestWord[i].length()) {
+                    longestWord[i] = l;
+                }
+            }
+
+            list.remove(longestWord[i]);
+
+        }
+        Arrays.sort(longestWord);
+        for (int i = 0; i < 3; i++) {
+            System.out.println(longestWord[i] + "->" + longestWord[i].length());
+        }
+    }
+
+    public static void operation3(Map<String, Integer> items) {
+        System.out.println(items);
+        Map<String, Integer> sortedMap = items.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        System.out.println(sortedMap);
+
+
+
+    }
+
+
 
 }
