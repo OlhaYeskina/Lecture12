@@ -111,8 +111,35 @@ public class TextAnalyzer{
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
         System.out.println(sortedMap);
 
+      //  List<String> list = new ArrayList<String>(sortedMap.values());
+
+// or you may use
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : sortedMap.entrySet())
+        {
+            list.add(entry.getKey());
+        }
+        List<String> list2 = new ArrayList<>();
+        for (int i = 1; i < 4; i++) {
+            if(!list.get(list.size() - i).isEmpty())
+            list2.add(list.get(list.size() - i));
+        }
+//        list2.add(list.get(list.size() - 1));
+//        list2.add(list.get(list.size() - 2));
+//        list2.add(list.get(list.size() - 3));
+        System.out.println(list2);
+        List<String> upped = list2.stream().map(String::toUpperCase).collect(Collectors.toList());
+        System.out.println(upped);
 
 
+
+        List<String> reverse = new ArrayList<>();
+       // String str = "абвгдеёжзи";
+       // String reverse = new StringBuffer(str).reverse().toString();
+        for (String str: upped) {
+            reverse.add(new StringBuffer(str).reverse().toString());
+        }
+        System.out.println(reverse);
     }
 
 

@@ -43,7 +43,7 @@ public class Task2 {
    //     mapKeyOrder.keySet().hashCode();
         for (Map.Entry<String, Order> entry : mapKeyOrder.entrySet()) {
             if (Objects.equals(obj, entry.getValue())) {
-                return entry.getKey().hashCode();
+                return entry.getValue().hashCode();
             }
         }
         return 0;

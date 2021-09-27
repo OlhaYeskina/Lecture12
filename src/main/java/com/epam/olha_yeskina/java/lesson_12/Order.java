@@ -1,9 +1,10 @@
 package com.epam.olha_yeskina.java.lesson_12;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Order {
+public class Order implements Serializable {
 
 
     String orderKey;
@@ -19,7 +20,7 @@ public class Order {
     }
  private String  createOrderKey(){
         count++;
-        return count + "55553333";
+        return count + "5";
  }
      public String getOrderKey(){
         return orderKey;
@@ -33,15 +34,20 @@ public class Order {
     }
 
     @Override
+    public String toString(){
+        return "Order [ name: " +getOrderName()+"; price: "+getOrderPrice()+"; + key: "+getOrderKey()+" ]";
+    }
+
+    @Override
     public int hashCode() {
         int sumFirstFourDigits = 0;
         char[] chars = this.orderKey.toCharArray();
         for (int i = 0; i<4; i++) {
-            System.out.println(chars[i]);
-            sumFirstFourDigits += chars[i];
+           // System.out.println(chars[i]);
+            sumFirstFourDigits += Character.getNumericValue(chars[i]);
         }
-        System.out.println(sumFirstFourDigits);
-        System.out.println(getOrderKey().length());
-        return sumFirstFourDigits * this.orderKey.length();
+    //    System.out.println(sumFirstFourDigits);
+      //  System.out.println(getOrderKey().length());
+        return sumFirstFourDigits + this.orderKey.length();
     }
 }
